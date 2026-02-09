@@ -8,10 +8,10 @@ import TaskFilters from "./TaskFilters"
 
 export type Task = {
   id: string
-  title: string
-  description: string | null
-  status: "TODO" | "IN_PROGRESS" | "COMPLETED"
+  text: string
+  status: "PENDING" | "DONE"
   deadline: string | null
+  finishedTime: string | null
   createdAt: string
   updatedAt: string
 }

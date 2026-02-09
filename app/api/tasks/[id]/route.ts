@@ -14,7 +14,7 @@ export async function PATCH(
     }
 
     const { id } = await params
-    const { title, description, status, deadline } = await req.json()
+    const { text, status, deadline } = await req.json()
 
     const existingTask = await prisma.task.findUnique({
       where: { id },
@@ -31,9 +31,11 @@ export async function PATCH(
     const task = await prisma.task.update({
       where: { id },
       data: {
-        ...(title !== undefined && { title }),
-        ...(description !== undefined && { description }),
-        ...(status !== undefined && { status }),
+        ...(text !== undefined && { text }),
+        ...(status !== undefined && {
+          status,
+          finishedTime: status === "DONE" ? new Date() : null
+        }),
         ...(deadline !== undefined && {
           deadline: deadline ? new Date(deadline) : null,
         }),

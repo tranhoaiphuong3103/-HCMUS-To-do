@@ -9,21 +9,19 @@ type TaskItemProps = {
 }
 
 const statusColors = {
-  TODO: "bg-zinc-100 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300",
-  IN_PROGRESS: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
-  COMPLETED: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+  PENDING: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
+  DONE: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
 }
 
 const statusLabels = {
-  TODO: "To Do",
-  IN_PROGRESS: "In Progress",
-  COMPLETED: "Completed",
+  PENDING: "Pending",
+  DONE: "Done",
 }
 
 export default function TaskItem({ task, onEdit, onDelete }: TaskItemProps) {
   const isOverdue =
     task.deadline &&
-    task.status !== "COMPLETED" &&
+    task.status !== "DONE" &&
     new Date(task.deadline) < new Date()
 
   return (
@@ -32,7 +30,7 @@ export default function TaskItem({ task, onEdit, onDelete }: TaskItemProps) {
         <div className="flex-1">
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-              {task.title}
+              {task.text}
             </h3>
             <span
               className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -47,15 +45,15 @@ export default function TaskItem({ task, onEdit, onDelete }: TaskItemProps) {
               </span>
             )}
           </div>
-          {task.description && (
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-              {task.description}
-            </p>
-          )}
           <div className="mt-3 flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-500">
             {task.deadline && (
               <span>
                 Due: {new Date(task.deadline).toLocaleDateString()}
+              </span>
+            )}
+            {task.finishedTime && (
+              <span>
+                Finished: {new Date(task.finishedTime).toLocaleDateString()}
               </span>
             )}
             <span>

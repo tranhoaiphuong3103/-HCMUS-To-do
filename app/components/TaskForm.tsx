@@ -10,9 +10,8 @@ type TaskFormProps = {
 }
 
 export default function TaskForm({ task, onClose, onSaved }: TaskFormProps) {
-  const [title, setTitle] = useState(task?.title || "")
-  const [description, setDescription] = useState(task?.description || "")
-  const [status, setStatus] = useState(task?.status || "TODO")
+  const [text, setText] = useState(task?.text || "")
+  const [status, setStatus] = useState(task?.status || "PENDING")
   const [deadline, setDeadline] = useState(
     task?.deadline ? task.deadline.split("T")[0] : ""
   )
@@ -21,8 +20,7 @@ export default function TaskForm({ task, onClose, onSaved }: TaskFormProps) {
 
   useEffect(() => {
     if (task) {
-      setTitle(task.title)
-      setDescription(task.description || "")
+      setText(task.text)
       setStatus(task.status)
       setDeadline(task.deadline ? task.deadline.split("T")[0] : "")
     }
@@ -43,8 +41,7 @@ export default function TaskForm({ task, onClose, onSaved }: TaskFormProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          title,
-          description: description || null,
+          text,
           status,
           deadline: deadline || null,
         }),
@@ -102,36 +99,19 @@ export default function TaskForm({ task, onClose, onSaved }: TaskFormProps) {
 
             <div>
               <label
-                htmlFor="title"
+                htmlFor="text"
                 className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
               >
-                Title *
-              </label>
-              <input
-                id="title"
-                type="text"
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-2 text-zinc-900 dark:text-white placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="Enter task title"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
-              >
-                Description
+                Task *
               </label>
               <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                id="text"
+                required
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 rows={3}
                 className="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-2 text-zinc-900 dark:text-white placeholder-zinc-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="Add a description (optional)"
+                placeholder="Enter task description"
               />
             </div>
 
@@ -148,9 +128,8 @@ export default function TaskForm({ task, onClose, onSaved }: TaskFormProps) {
                 onChange={(e) => setStatus(e.target.value as any)}
                 className="w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-2 text-zinc-900 dark:text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
-                <option value="TODO">To Do</option>
-                <option value="IN_PROGRESS">In Progress</option>
-                <option value="COMPLETED">Completed</option>
+                <option value="PENDING">Pending</option>
+                <option value="DONE">Done</option>
               </select>
             </div>
 

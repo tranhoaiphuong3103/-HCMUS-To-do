@@ -163,10 +163,10 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  description: 'description',
-  status: 'status',
+  text: 'text',
   deadline: 'deadline',
+  status: 'status',
+  finishedTime: 'finishedTime',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -187,9 +187,8 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.TaskStatus = exports.$Enums.TaskStatus = {
-  TODO: 'TODO',
-  IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED'
+  PENDING: 'PENDING',
+  DONE: 'DONE'
 };
 
 exports.Prisma.ModelName = {

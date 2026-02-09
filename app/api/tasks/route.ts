@@ -19,10 +19,7 @@ export async function GET(req: Request) {
     const where = {
       userId: session.user.id,
       ...(search && {
-        OR: [
-          { title: { contains: search, mode: "insensitive" as const } },
-          { description: { contains: search, mode: "insensitive" as const } },
-        ],
+        text: { contains: search, mode: "insensitive" as const },
       }),
       ...(status && { status: status as any }),
     }
@@ -54,21 +51,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { title, description, status, deadline } = await req.json()
+    const { text, status, deadline } = await req.json()
 
-    if (!title) {
+    if (!text) {
       return NextResponse.json(
-        { error: "Title is required" },
+        { error: "Text is required" },
         { status: 400 }
       )
     }
 
     const task = await prisma.task.create({
       data: {
-        title,
-        description,
-        status: status || "TODO",
+        text,
+        status: status || "PENDING",
         deadline: deadline ? new Date(deadline) : null,
+        finishedTime: status === "DONE" ? new Date() : null,
         userId: session.user.id,
       },
     })
