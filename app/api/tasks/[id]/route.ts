@@ -31,15 +31,15 @@ export async function PATCH(
     const task = await prisma.task.update({
       where: { id },
       data: {
-        ...(text !== undefined && { text }),
+        ...(text !== undefined && { text: text }),
         ...(status !== undefined && {
-          status,
+          status: status as any,
           finishedTime: status === "DONE" ? new Date() : null
         }),
         ...(deadline !== undefined && {
           deadline: deadline ? new Date(deadline) : null,
         }),
-      },
+      } as any,
     })
 
     return NextResponse.json(task)

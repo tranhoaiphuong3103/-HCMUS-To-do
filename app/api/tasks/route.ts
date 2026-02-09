@@ -62,12 +62,12 @@ export async function POST(req: Request) {
 
     const task = await prisma.task.create({
       data: {
-        text,
-        status: status || "PENDING",
+        text: text,
+        status: (status || "PENDING") as any,
         deadline: deadline ? new Date(deadline) : null,
         finishedTime: status === "DONE" ? new Date() : null,
         userId: session.user.id,
-      },
+      } as any,
     })
 
     return NextResponse.json(task, { status: 201 })
