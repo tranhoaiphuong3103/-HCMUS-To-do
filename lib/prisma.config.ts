@@ -4,7 +4,7 @@ const prismaClientSingleton = () => {
   const accelerateUrl = process.env.PRISMA_DATABASE_URL;
 
   if (!accelerateUrl) {
-    throw new Error('PRISMA_DATABASE_URL environment variable is not set');
+    throw new Error('PRISMA_DATABASE_URL is required');
   }
 
   return new PrismaClient({
